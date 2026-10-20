@@ -86,7 +86,39 @@ function fmtG(x){return num(x).toFixed(1).replace(/\.0$/,'')}
 function esc(x){return String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function toast(msg){const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(stopToast);stopToast=setTimeout(()=>el.classList.remove('show'),3000)}
 function saveEntry(entry){store.entries.push(entry);persist();renderToday();toast('Added to your food diary');}
-function foodIcon(food){const s=(food.category||'').toLowerCase();return s.includes('protein')?'♧':s.includes('fruit')?'◒':s.includes('dairy')?'◈':s.includes('grain')?'≋':s.includes('vegetable')?'✿':s.includes('fats')?'◉':'✳'}
+function foodIcon(food) {
+  const s = (food.category || '').toLowerCase();
+  const icons = {
+    protein: '<path d="M12 22c4.4 0 8-3.2 8-7.6C20 9.6 16.5 2 12 2S4 9.6 4 14.4C4 18.8 7.6 22 12 22Z"/>',
+    fruit: '<path d="M12 7C9 4 5 5 4 9c-1 4 1 13 6 13 1 0 1.3-.5 2-.5s1 .5 2 .5c5 0 7-9 6-13-1-4-5-5-8-2Z"/><path d="M12 7c0-3 1-4 4-5"/>',
+    dairy: '<path d="M9 2h6v4H9z"/><path d="m9 6-3 4v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10l-3-4"/><path d="M6 13h12"/>',
+    grain: '<path d="M12 22V2"/><path d="M12 7C8 7 7 6 6 3c4 0 5 1 6 4ZM12 11c4 0 5-1 6-4-4 0-5 1-6 4ZM12 15c-4 0-5-1-6-4 4 0 5 1 6 4ZM12 19c4 0 5-1 6-4-4 0-5 1-6 4Z"/>',
+    vegetable: '<path d="M20 4C12 4 5 6 5 15a5 5 0 0 0 5 5c9 0 11-7 10-16Z"/><path d="M4 21c2-6 6-10 12-13"/>',
+    fats: '<path d="M12 22a8 8 0 0 0 8-8c0-4-8-12-8-12S4 10 4 14a8 8 0 0 0 8 8Z"/>',
+    other: '<path d="M4 2v7a3 3 0 0 0 6 0V2M7 2v20M20 22V2c-4 2-5 7-5 11h5"/>'
+  };
+  let type = 'other';
+  if (/protein|meat|chicken|fish|egg|poultry/.test(s)) {
+    type = 'protein';
+  } else if (/fruit/.test(s)) {
+    type = 'fruit';
+  } else if (/dairy|milk|cheese|yogurt/.test(s)) {
+    type = 'dairy';
+  } else if (/grain|cereal|bread|rice|pasta/.test(s)) {
+    type = 'grain';
+  } else if (/vegetable|salad/.test(s)) {
+    type = 'vegetable';
+  } else if (/fat|oil|nut/.test(s)) {
+    type = 'fats';
+  }
+  return `<svg xmlns="http://www.w3.org/2000/svg"
+    width="24" height="24" viewBox="0 0 24 24"
+    fill="none" stroke="currentColor"
+    stroke-width="2" stroke-linecap="round"
+    stroke-linejoin="round" aria-hidden="true">
+    ${icons[type]}
+  </svg>`;
+}
 function goPage(page){if(!['today','search','scan','photo','settings'].includes(page))return;if(currentPage==='scan'&&page!=='scan')stopScanner();currentPage=page;document.querySelectorAll('.page').forEach(e=>e.classList.toggle('active',e.id==='page-'+page));document.querySelectorAll('.nav-item').forEach(e=>e.classList.toggle('active',e.dataset.go===page));window.scrollTo({top:0,behavior:'instant'});if(page==='today')renderToday();if(page==='search')renderSearch($('food-query').value);if(page==='settings')loadSettings();}
 function recalcFor(food,grams){const factor=grams/100;return {kcal:num(food.kcal)*factor,protein:num(food.protein)*factor,carbs:num(food.carbs)*factor,fat:num(food.fat)*factor}}
 function entryNutrients(entry){return recalcFor(entry,entry.grams)}
