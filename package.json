@@ -1,0 +1,1 @@
+{"name":"fuelnote-iphone","version":"1.0.0","private":true,"type":"module","description":"iPhone-friendly calorie and macro tracker PWA with barcode scan and optional AI meal estimate","engines":{"node":">=20"}}
