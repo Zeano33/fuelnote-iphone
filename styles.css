@@ -72,3 +72,21 @@
   stroke-width: 2;
   flex-shrink: 0;
 }
+/* FOOD CATEGORY ICONS */
+.food-result-icon svg,
+.entry-placeholder svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.food-result-icon,
+.entry-placeholder {
+  display: grid;
+  place-items: center;
+  color: var(--lime);
+}
