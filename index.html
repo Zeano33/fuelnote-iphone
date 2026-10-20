@@ -20,13 +20,48 @@
 </script>
 <body>
 <div id="app">
-  <header class="topbar">
-    <div class="brand"><div class="brand-mark">f<span>.</span></div><div class="brand-copy"><strong>fuelnote</strong><small>FOOD & MACRO TRACKER</small></div></div>
-    <button type="button" id="settings-shortcut" class="avatar" aria-label="Settings">⚙</button>
-  </header>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">f<span>.</span></div>
+    <div class="brand-copy">
+      <strong>fuelnote</strong>
+      <small>FOOD & MACRO TRACKER</small>
+    </div>
+  </div>
+  <div class="header-menu-wrap">
+    <button
+      type="button"
+      id="settings-shortcut"
+      class="avatar menu-toggle"
+      aria-label="Open menu"
+      aria-controls="header-menu"
+      aria-expanded="false"
+    >
+      <i data-lucide="menu"></i>
+    </button>
+    <nav id="header-menu" class="header-menu"
+         aria-label="Quick menu" hidden>
+      <button type="button" data-go="today">
+        <i data-lucide="house"></i> Today
+      </button>
+      <button type="button" data-go="search">
+        <i data-lucide="search"></i> Search Food
+      </button>
+      <button type="button" data-go="scan">
+        <i data-lucide="scan-line"></i> Scan Barcode
+      </button>
+      <button type="button" data-go="photo">
+        <i data-lucide="camera"></i> Meal Photos
+      </button>
+      <button type="button" data-go="settings">
+        <i data-lucide="settings"></i> Settings
+      </button>
+    </nav>
+  </div>
+</header>
   <main id="pages">
     <section id="page-today" class="page active" aria-labelledby="today-heading">
-      <div class="heading-row"><div><span class="eyebrow">YOUR DAILY OVERVIEW</span><h1 id="today-heading">Stay on track<span class="green-dot">.</span></h1></div><div class="greeting-symbol">✳</div></div>
+      <div class="heading-row"><div><span class="eyebrow">YOUR DAILY OVERVIEW</span><h1 id="today-heading">Stay on track<span class="green-dot">.</span></h1></div></div>
       <div class="date-switch"><button type="button" id="date-prev" aria-label="Previous day">‹</button><div class="date-text"><b id="selected-date">Today</b><small id="selected-date-sub">Monday, 19 October</small></div><button type="button" id="date-next" aria-label="Next day">›</button></div>
       <div class="cal-card">
         <div class="cal-top"><span class="section-kicker">ENERGY BALANCE</span><span class="tiny-tag">DAILY GOAL</span></div>
@@ -41,7 +76,7 @@
     <section id="page-search" class="page" aria-labelledby="search-heading">
       <span class="eyebrow">FIND & WEIGH</span><h1 id="search-heading">Log your food<span class="green-dot">.</span></h1><p class="page-lead">Search by name, choose an item, then enter the exact grams you ate.</p>
       <label class="search-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="food-query" type="search" placeholder="e.g. chicken breast, oats, yogurt" autocomplete="off" enterkeyhint="search"><span id="search-spinner" class="search-spinner" hidden></span></label>
-      <div class="quick-chips" id="quick-chips"><button type="button" data-search="Chicken">Chicken</button><button type="button" data-search="Rice">Rice</button><button type="button" data-search="Egg">Eggs</button><button type="button" data-search="Oats">Oats</button><button type="button" data-search="Pap">Pap</button></div>
+      <div class="quick-chips" id="quick-chips"><button type="button" data-search="Chicken">Chicken</button><button type="button" data-search="Rice">Rice</button><button type="button" data-search="Egg">Eggs</button><button type="button" data-search="Oats">Oats</button><button type="button" data-search="Vegetables">Vegetables</button></div>
       <div class="section-label-row"><h2 id="results-title">Everyday foods</h2><span id="results-count">Per 100g</span></div>
       <div id="search-results" class="food-list"></div>
       <button type="button" class="outline-wide" id="create-custom">＋ Create a custom food</button>
