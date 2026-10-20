@@ -198,7 +198,39 @@ function exportBackup(){const data=JSON.stringify({...store,exportedAt:new Date(
 async function importBackup(file){if(!file)return;try{const data=JSON.parse(await file.text());if(!Array.isArray(data.entries)||!data.goals||!Array.isArray(data.custom||[]))throw Error('Invalid Fuelnote backup');if(!confirm('Replace the current diary and goals with this backup?'))return;store={goals:{...DEFAULT.goals,...data.goals},entries:data.entries.filter(e=>e.id&&e.name&&e.date),custom:data.custom||[]};persist();loadSettings();renderToday();toast('Backup imported');}catch(e){toast(e.message||'Import failed')}}
 function attachEvents(){
  document.addEventListener('click',e=>{const nav=e.target.closest('[data-go]');if(nav){goPage(nav.dataset.go);return;}const result=e.target.closest('[data-food-index]');if(result){openFood(latestFoods[Number(result.dataset.foodIndex)]);return;}const deleteBtn=e.target.closest('[data-delete]');if(deleteBtn){const entry=store.entries.find(x=>x.id===deleteBtn.dataset.delete);if(entry&&confirm(`Remove ${entry.name} from the diary?`)){store.entries=store.entries.filter(x=>x.id!==entry.id);persist();renderToday();toast('Food removed')}return;}const review=e.target.closest('[data-ai-item]');if(review){const index=Number(review.dataset.aiItem);const x=aiItems[index];if(x){reviewAiIndex=index;const f=aiFood(x);openFood(f);$('log-grams').value=num(x.grams);updateFoodPreview();}return;}const toEdit=e.target.closest('[data-edit]');if(toEdit){const entry=store.entries.find(x=>x.id===toEdit.dataset.edit);if(entry)openFood(entry,entry);return;}if(e.target.id==='ai-add-all'){addAllAi();}});
- $('settings-shortcut').addEventListener('click',()=>goPage('settings'));
+
+// Hamburger menu functionality
+const menuButton = $('settings-shortcut');
+const headerMenu = $('header-menu');
+
+function closeHeaderMenu() {
+  headerMenu.hidden = true;
+  menuButton.setAttribute('aria-expanded', 'false');
+}
+// Open or close the menu
+menuButton.addEventListener('click', () => {
+  const opening = headerMenu.hidden;
+  headerMenu.hidden = !opening;
+  menuButton.setAttribute('aria-expanded', String(opening));
+});
+// Close after selecting a menu item
+headerMenu.addEventListener('click', (e) => {
+  if (e.target.closest('[data-go]')) {
+    closeHeaderMenu();
+  }
+});
+// Close when tapping outside
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.header-menu-wrap')) {
+    closeHeaderMenu();
+  }
+});
+// Close using Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeHeaderMenu();
+  }
+});
  $('date-prev').addEventListener('click',()=>{selectedDate=shiftDate(selectedDate,-1);renderToday()});
  $('date-next').addEventListener('click',()=>{selectedDate=shiftDate(selectedDate,1);renderToday()});
  $('food-query').addEventListener('input',e=>{const q=e.target.value;querySeq++;remoteFoods=[];renderSearch(q);clearTimeout(searchTimer);if(q.trim().length>=3)searchTimer=setTimeout(()=>remoteSearch(q.trim()),650)});
