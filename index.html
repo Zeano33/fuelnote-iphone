@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d1411">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Fuelnote">
+  <meta name="description" content="Track calories and macros through barcode scans, photos and weighed foods.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="icon" type="image/png" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Fuelnote — Eat with intention</title>
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="brand"><div class="brand-mark">f<span>.</span></div><div class="brand-copy"><strong>fuelnote</strong><small>FOOD & MACRO TRACKER</small></div></div>
+    <div class="header-menu-wrap">
+      <button type="button" id="settings-shortcut" class="avatar menu-toggle" aria-label="Open menu" aria-controls="header-menu" aria-expanded="false"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+      <nav id="header-menu" class="header-menu" aria-label="Quick menu" hidden>
+        <button type="button" data-go="today"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg> Today</button>
+        <button type="button" data-go="profile"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></svg> My Profile &amp; Goals</button>
+        <button type="button" data-go="search"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg> Search food</button>
+        <button type="button" data-go="scan"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M5 12h14M8 9v6M11 9v6M14 9v6M17 9v6"/></svg> Scan barcode</button>
+        <button type="button" data-go="photo"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h4l2-3h4l2 3h4a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z"/><circle cx="12" cy="13" r="4"/></svg> Meal photos</button>
+        <button type="button" data-go="settings"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/><circle cx="12" cy="12" r="8"/></svg> Settings &amp; backups</button>
+      </nav>
+    </div>
+  </header>
+  <main id="pages">
+    <section id="page-today" class="page active" aria-labelledby="today-heading">
+      <div class="heading-row"><div><span class="eyebrow">YOUR DAILY OVERVIEW</span><h1 id="today-heading">Stay on track<span class="green-dot">.</span></h1></div></div>
+      <div class="date-switch"><button type="button" id="date-prev" aria-label="Previous day">‹</button><div class="date-text"><b id="selected-date">Today</b><small id="selected-date-sub">Monday, 19 October</small></div><button type="button" id="date-next" aria-label="Next day">›</button></div>
+      <div class="cal-card">
+        <div class="cal-top"><span class="section-kicker">ENERGY BALANCE</span><span class="tiny-tag">DAILY GOAL</span></div>
+        <div class="cal-body"><div id="cal-ring" class="cal-ring" role="img" aria-label="Daily calorie progress"><div class="cal-ring-inner"><span class="ring-caption">EATEN TODAY</span><strong id="cal-eaten">0</strong><span class="ring-unit">kcal</span></div></div><div class="cal-aside"><div><span class="muted-caption">Remaining</span><b id="cal-left">2,400</b><small>kcal left</small></div><span class="hairline"></span><div><span class="muted-caption">Daily target</span><b id="cal-goal">2,400</b><small>kcal</small></div></div></div>
+      </div>
+      <div class="section-label-row"><h2>Your macros</h2><span>Consumed / Goal</span></div>
+      <div class="macros-grid"><div class="macro-card"><div class="macro-symbol protein">P</div><strong id="protein-value">0 <small>g</small></strong><span>Protein</span><div class="bar-rail"><div id="protein-bar" class="bar protein-bar"></div></div><small id="protein-goal">of 150g</small></div><div class="macro-card"><div class="macro-symbol carbs">C</div><strong id="carbs-value">0 <small>g</small></strong><span>Carbs</span><div class="bar-rail"><div id="carbs-bar" class="bar carbs-bar"></div></div><small id="carbs-goal">of 270g</small></div><div class="macro-card"><div class="macro-symbol fat">F</div><strong id="fat-value">0 <small>g</small></strong><span>Fat</span><div class="bar-rail"><div id="fat-bar" class="bar fat-bar"></div></div><small id="fat-goal">of 80g</small></div></div>
+      <section class="hydration-card" aria-labelledby="hydration-title">
+        <div class="section-label-row hydration-heading"><h2 id="hydration-title"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-3-7-12-7-12S5 12 5 15a7 7 0 0 0 7 7z"/><path d="M8 16a4 4 0 0 0 4 4"/></svg> Water</h2><button type="button" id="edit-water-goal" class="text-action">Edit goal</button></div>
+        <div class="hydration-numbers"><strong id="water-total">0 ml</strong><span id="water-goal-label">of 2,500 ml</span></div>
+        <div class="bar-rail water-rail"><div id="water-bar" class="bar water-bar"></div></div>
+        <div class="water-actions"><button type="button" data-water="250">+ 250ml</button><button type="button" data-water="500">+ 500ml</button><button type="button" data-water="750">+ 750ml</button><button type="button" id="water-custom">Other</button><button type="button" id="water-undo" title="Remove your most recent water entry">Undo</button></div>
+        <p class="helper-note">Water is recorded separately from calories. Other drinks can be logged in Search.</p>
+      </section>
+      <div class="section-label-row log-title"><h2>Food diary</h2><button type="button" class="text-action" data-go="search">+ Add food</button></div>
+      <div id="diary"></div>
+      <div class="tip-card"><span>✦</span><div><b>Built for your goals</b><p>Focus on consistent protein and strength training. Set up My Profile &amp; Goals to estimate your calorie needs, or keep your own targets in Settings.</p></div></div>
+    </section>
+    <section id="page-search" class="page" aria-labelledby="search-heading">
+      <span class="eyebrow">FIND & WEIGH</span><h1 id="search-heading">Log your food<span class="green-dot">.</span></h1><p class="page-lead">Search foods and drinks, then log grams, millilitres or servings where available.</p>
+      <label class="search-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="food-query" type="search" placeholder="Search chicken, steak, fish, rice, vegetables…" autocomplete="off" enterkeyhint="search"><span id="search-spinner" class="search-spinner" hidden></span></label>
+      <div class="quick-chips" id="quick-chips" role="group" aria-label="Browse food categories"><button type="button" data-category="popular" aria-pressed="true" class="active">Popular</button><button type="button" data-category="protein" aria-pressed="false">Protein</button><button type="button" data-category="carbs" aria-pressed="false">Carbs</button><button type="button" data-category="vegetables" aria-pressed="false">Vegetables</button><button type="button" data-category="fruit" aria-pressed="false">Fruit</button><button type="button" data-category="drinks" aria-pressed="false">Drinks</button><button type="button" data-category="supplements" aria-pressed="false">Supplements</button></div>
+      <div class="section-label-row"><h2 id="results-title">Everyday foods</h2><span id="results-count">Per 100g</span></div>
+      <div id="search-results" class="food-list"></div>
+      <button type="button" class="outline-wide" id="create-custom">＋ Create a custom food</button>
+      <p class="helper-note">Generic foods are nutrition estimates. Packaged-food values are contributed by Open Food Facts users; always check the label.</p>
+    </section>
+    <section id="page-scan" class="page" aria-labelledby="scan-heading">
+      <span class="eyebrow">INSTANT FOOD LOOKUP</span><h1 id="scan-heading">Scan a barcode<span class="green-dot">.</span></h1><p class="page-lead">Point your iPhone camera at the barcode on a food package. We'll look up its nutritional information.</p>
+      <div class="scan-shell"><div class="scan-placeholder" id="scan-placeholder"><svg viewBox="0 0 120 84" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 25V13a5 5 0 0 1 5-5h17M82 8h17a5 5 0 0 1 5 5v12M104 60v12a5 5 0 0 1-5 5H82M38 77H21a5 5 0 0 1-5-5V60" stroke-width="4" stroke-linecap="round"/><path d="M32 29v27m8-27v27m7-27v27m6-27v27m6-27v27m8-27v27m9-27v27m5-27v27"/></svg><b>Ready to scan</b><p>Camera permission will be requested when you start.</p></div><div id="reader"></div></div>
+      <div class="scan-actions"><button type="button" id="start-scanner" class="btn-primary"><span>▣</span> Start camera scanner</button><button type="button" id="stop-scanner" class="btn-secondary" hidden>Stop camera</button></div>
+      <div id="scan-status" class="inline-status" aria-live="polite"></div>
+      <div class="divider-label">OR ENTER A BARCODE</div>
+      <form id="barcode-form" class="inline-form"><input id="barcode-input" type="text" inputmode="numeric" pattern="[0-9]{6,14}" maxlength="14" placeholder="Barcode number" required aria-label="Barcode number"><button class="btn-light" type="submit">Look up →</button></form>
+      <div class="divider-label">OR USE A BARCODE PHOTO</div><label class="btn-secondary file-label">⌁ Choose a barcode picture<input id="barcode-file" type="file" accept="image/*" hidden></label>
+    </section>
+    <section id="page-photo" class="page" aria-labelledby="photo-heading">
+      <span class="eyebrow">VISUAL FOOD JOURNAL</span><h1 id="photo-heading">Snap your meal<span class="green-dot">.</span></h1><p class="page-lead">Capture your meals and attach photos to manually logged foods. No paid API required.</p>
+      <div id="photo-drop" class="photo-drop"><div id="photo-empty"><div class="photo-icon">◉</div><h3>What's on your plate?</h3><p>Take a photo or select one from your library</p></div><img id="photo-preview" alt="Meal preview" hidden></div>
+      <div class="two-actions"><label class="btn-primary file-label">◉ Take photo<input id="camera-input" type="file" accept="image/*" capture="environment" hidden></label><label class="btn-secondary file-label">▧ Photo library<input id="library-input" type="file" accept="image/*" hidden></label></div>
+      <button type="button" id="photo-analyze" class="btn-light full-button" hidden disabled>✦ Estimate calories with AI</button>
+      <button type="button" id="photo-manual" class="outline-wide">Log this meal manually instead</button>
+      <div id="photo-status" class="inline-status" aria-live="polite"></div><div id="photo-results"></div>
+      <div class="warning-note">Photos can be attached to your manually logged foods. Automatic photo estimates are not included in this phase.</div>
+    </section>
+    <section id="page-profile" class="page" aria-labelledby="profile-heading">
+      <span class="eyebrow">PERSONALIZED NUTRITION</span><h1 id="profile-heading">My profile<span class="green-dot">.</span></h1>
+      <p class="page-lead">Tell Fuelnote about your measurements and routine for an estimated calorie and macro plan. Your information stays on this device.</p>
+      <form id="profile-form" class="settings-card">
+        <h2>Your measurements</h2>
+        <div class="field-row"><label>Age <small>years</small><input id="profile-age" type="number" min="18" max="100" step="1" placeholder="e.g. 29" required></label><label>Weight <small>kg</small><input id="profile-weight" type="number" min="30" max="350" step="0.1" placeholder="e.g. 74" required></label></div>
+        <div class="field-row"><label>Height <small>cm</small><input id="profile-height" type="number" min="120" max="230" step="1" placeholder="e.g. 176" required></label><label>Sex <select id="profile-equation" required><option value="">Choose…</option><option value="male">Male</option><option value="female">Female</option></select></label></div>
+        <label class="block-label">Daily activity (include exercise in your choice)
+          <select id="profile-activity" required><option value="1.2">Mostly sitting · little exercise</option><option value="1.375">Lightly active · 1–3 sessions/week</option><option value="1.55">Moderately active · 3–5 sessions/week</option><option value="1.725">Very active · hard exercise / physical job</option><option value="1.9">Extremely active · high daily training load</option></select>
+        </label>
+        <label class="block-label">Training days per week <small>For your reference; not added again to activity calories</small><select id="profile-training"><option value="0">0 days</option><option value="1">1 day</option><option value="2">2 days</option><option value="3">3 days</option><option value="4">4 days</option><option value="5">5 days</option><option value="6">6 days</option><option value="7">7 days</option></select></label>
+        <label class="block-label">Primary goal
+          <select id="profile-goal"><option value="gain">Build muscle / gradual weight gain</option><option value="lose">Lose body fat / weight</option><option value="maintain">Maintain my weight</option><option value="recomp">Body recomposition</option></select>
+        </label>
+        <button class="btn-primary full-button" type="submit">Calculate my targets</button>
+      </form>
+      <section id="profile-results" class="settings-card goal-results" hidden aria-live="polite">
+        <span class="eyebrow">YOUR ESTIMATED PLAN</span><h2>Suggested daily targets</h2>
+        <div class="goal-energy"><strong id="recommend-cal">–</strong><span>kcal / day</span></div>
+        <div class="goal-details"><div><small>Maintenance estimate</small><strong id="recommend-maintenance">–</strong></div><div><small>Resting estimate</small><strong id="recommend-resting">–</strong></div></div>
+        <div class="goal-macros"><div><strong id="recommend-protein">–</strong><small>Protein</small></div><div><strong id="recommend-carbs">–</strong><small>Carbs</small></div><div><strong id="recommend-fat">–</strong><small>Fat</small></div></div>
+        <p class="settings-fineprint">These are starting estimates for adults, not guarantees. Reassess using 2–4 weeks of weight trends and training performance. If you have medical or special nutritional needs, ask a qualified professional.</p>
+        <button id="apply-plan" type="button" class="btn-primary full-button">Apply these targets to Today</button>
+        <p class="helper-note">Nothing changes on your dashboard until you press Apply. You can still edit targets manually in Settings.</p>
+      </section>
+    </section>
+    <section id="page-settings" class="page" aria-labelledby="settings-heading">
+      <span class="eyebrow">MAKE IT YOURS</span><h1 id="settings-heading">Your targets<span class="green-dot">.</span></h1><p class="page-lead">Manage your daily targets, water goal and backups. For calculated targets, open My Profile &amp; Goals in the menu.</p>
+      <form id="settings-form" class="settings-card"><h2>Daily targets</h2><div class="field-row"><label>Calories <small>kcal</small><input id="target-cal" type="number" min="500" max="10000" step="10" required></label><label>Protein <small>grams</small><input id="target-protein" type="number" min="0" max="1000" step="1" required></label></div><div class="field-row"><label>Carbs <small>grams</small><input id="target-carbs" type="number" min="0" max="1500" step="1" required></label><label>Fat <small>grams</small><input id="target-fat" type="number" min="0" max="1000" step="1" required></label></div><button class="btn-primary" type="submit">Save my targets</button><p class="settings-fineprint">Initial example: 2,400 kcal / 150g protein / 270g carbs / 80g fat. Review against changes in body weight, activity and training.</p></form>
+      <div class="settings-card"><h2>Hydration goal</h2><label class="block-label">Daily water target (ml)<input id="settings-water-goal" type="number" min="250" max="10000" step="50" value="2500"></label><button type="button" id="save-water-goal" class="btn-secondary full-button">Save water goal</button><p class="settings-fineprint">This is a customizable reminder, not a medical fluid recommendation.</p></div>
+      <div class="settings-card" id="ai-settings-card" hidden><h2>AI photo estimates</h2><p class="muted-body">Your deployed app needs a private OpenAI API key configured on its server. If you set an access PIN when deploying, enter it below. The PIN is stored only on this device.</p><label class="block-label">Private access PIN<input id="ai-pin" type="password" autocomplete="off" placeholder="Only if configured on your server"></label><button type="button" class="btn-secondary full-button" id="save-pin">Save access PIN</button></div>
+      <div class="settings-card"><h2>Your food data</h2><p class="muted-body">Food entries are saved on this device, not synced across devices. Back up your history before changing phones or clearing Safari data.</p><div class="two-actions"><button type="button" id="export-data" class="btn-secondary">↓ Export backup</button><label class="btn-secondary file-label">↑ Import backup<input type="file" id="import-data" accept="application/json,.json" hidden></label></div><button type="button" id="clear-data" class="danger-link">Delete all diary entries</button></div>
+      <div class="settings-card about"><b>fuelnote v2.0 · Phase 1</b><p>Made for simple, consistent tracking. Barcode product information: Open Food Facts. Photo estimates require your own configured AI service.</p></div>
+    </section>
+  </main>
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <button type="button" class="nav-item active" data-go="today"><span class="nav-icon"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M8 14h2M14 14h2M8 18h2"/></svg></span><small>Today</small></button>
+    <button type="button" class="nav-item" data-go="search"><span class="nav-icon"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span><small>Search</small></button>
+    <button type="button" class="nav-item" data-go="scan"><span class="nav-icon"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M5 12h14M8 9v6M11 9v6M14 9v6M17 9v6"/></svg></span><small>Scan</small></button>
+    <button type="button" class="nav-item" data-go="photo"><span class="nav-icon"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h4l2-3h4l2 3h4a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z"/><circle cx="12" cy="13" r="4"/></svg></span><small>Photo</small></button>
+    <button type="button" class="nav-item" data-go="settings"><span class="nav-icon"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/><circle cx="12" cy="12" r="8"/></svg></span><small>Settings</small></button>
+  </nav>
+</div>
+<div id="modal-backdrop" class="modal-backdrop" hidden><section class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title"><div class="sheet-handle"></div><div class="sheet-top"><h2 id="sheet-title">Log food</h2><button type="button" id="modal-close" aria-label="Close">×</button></div><div id="sheet-content"></div></section></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script type="module" src="./app.js"></script>
+</body>
+</html>
